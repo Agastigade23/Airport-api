@@ -17,7 +17,7 @@ namespace Airport_distance_api
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            builder.Services.AddAWSLambdaHosting(LambdaEventSource.HttpApi);
+            builder.Services.AddAWSLambdaHosting(LambdaEventSource.RestApi);
 
             builder.Services.AddScoped<IAirportRepository, AirportRepository>();
             builder.Services.AddSingleton<IDistanceRepository, DistanceRepository>();
