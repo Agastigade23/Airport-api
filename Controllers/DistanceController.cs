@@ -6,35 +6,33 @@ namespace Airport_distance_api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AirportsController : ControllerBase
+    public class DistanceController : ControllerBase
     {
         private readonly IAirportRepository _airportRepository;
         private readonly IDistanceRepository _distanceRepository;
 
-        public AirportsController(IAirportRepository airportRepository, IDistanceRepository distanceRepository)
+        public DistanceController(IAirportRepository airportRepository, IDistanceRepository distanceRepository)
         {
             _airportRepository = airportRepository;
             _distanceRepository = distanceRepository;
         }
 
-        [HttpGet("{sourceCode}/{destinationCode}")]
-        public IActionResult GetDistance(string sourceCode, string destinationCode)
+        [HttpGet("{source}/{destination}")]
+        public IActionResult GetDistanceWithout(string source, string destination)
         {
-            var sourceAirport = _airportRepository.GetAirportByCode(sourceCode);
-            var destinationAirport = _airportRepository.GetAirportByCode(destinationCode);
+            var sourceAirport = _airportRepository.GetAirportByCode(source);
+            var destinationAirport = _airportRepository.GetAirportByCode(destination);
 
             if (sourceAirport == null || destinationAirport == null)
             {
                 return NotFound("One or both airports not found.");
             }
 
-            double distance = _distanceRepository.CalculateDistance(
+            double distance = _distanceRepository.CalculateDistancewithout(
                 sourceAirport.Latitude, sourceAirport.Longitude,
                 destinationAirport.Latitude, destinationAirport.Longitude);
 
             return Ok(new { DistanceInKilometers = distance });
         }
-
-        
     }
 }
